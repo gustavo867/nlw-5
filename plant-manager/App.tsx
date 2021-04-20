@@ -1,16 +1,36 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { ThemeProvider } from "styled-components";
-import ScrollComponent from "./src/modules/components/ScrollComponent";
-import Welcome from "./src/screens/Welcome";
+import { useFonts } from "expo-font";
+import {
+  Jost_400Regular,
+  Jost_500Medium,
+  Jost_600SemiBold,
+  Jost_700Bold,
+} from "@expo-google-fonts/jost";
 import colors from "./src/styles/colors";
+import { ActivityIndicator, View } from "react-native";
+import { Routes } from "./src/routes/routes";
 
 export default function App() {
+  const [loaded] = useFonts({
+    Regular: Jost_400Regular,
+    Medium: Jost_500Medium,
+    Semi_Bold: Jost_600SemiBold,
+    Bold: Jost_700Bold,
+  });
+
+  if (!loaded) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator color="#000" size="large" />
+      </View>
+    );
+  }
+
   return (
     <ThemeProvider theme={colors}>
-      <ScrollComponent>
-        <Welcome />
-      </ScrollComponent>
+      <Routes />
       <StatusBar style="auto" />
     </ThemeProvider>
   );

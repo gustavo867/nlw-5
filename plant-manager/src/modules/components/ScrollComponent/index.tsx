@@ -43,6 +43,7 @@ const ScrollComponent = React.forwardRef<ScrollView, Props>((props, ref) => {
       <KeyboardAvoidingView
         style={{
           flex: 1,
+          flexGrow: 1,
         }}
         behavior="height"
       >
@@ -53,6 +54,8 @@ const ScrollComponent = React.forwardRef<ScrollView, Props>((props, ref) => {
           contentInsetAdjustmentBehavior="always"
           style={{
             marginBottom: moderateScale(10),
+            flex: 1,
+            flexGrow: 1,
           }}
           contentContainerStyle={{
             marginBottom: moderateScale(20),

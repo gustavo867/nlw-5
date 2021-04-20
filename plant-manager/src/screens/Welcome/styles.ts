@@ -16,7 +16,8 @@ export const Title = styled.Text`
   text-align: center;
   align-self: center;
   margin-top: ${ms(30)}px;
-  font-weight: bold;
+  font-family: "Semi_Bold";
+  line-height: ${ms(34)}px;
 `;
 
 export const LargeMargin = styled.View`
@@ -24,8 +25,8 @@ export const LargeMargin = styled.View`
 `;
 
 export const HeroImg = styled.Image`
-  width: ${width * 0.8}px;
-  height: ${height * 0.5}px;
+  width: ${ms(300)}px;
+  height: ${ms(300)}px;
   margin-top: ${ms(40)}px;
   align-self: center;
 `;
@@ -35,6 +36,7 @@ export const Desc = styled.Text`
   font-size: ${ms(17)}px;
   max-width: ${width * 0.8}px;
   text-align: center;
-  margin-top: ${ms(20)}px;
+  margin-top: ${ms(40)}px;
   align-self: center;
+  font-family: "Regular";
 `;
