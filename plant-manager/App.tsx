@@ -7,6 +7,7 @@ import {
   Jost_500Medium,
   Jost_600SemiBold,
   Jost_700Bold,
+  Jost_300Light,
 } from "@expo-google-fonts/jost";
 import colors from "./src/styles/colors";
 import { ActivityIndicator, View } from "react-native";
@@ -18,6 +19,7 @@ export default function App() {
     Medium: Jost_500Medium,
     Semi_Bold: Jost_600SemiBold,
     Bold: Jost_700Bold,
+    Light: Jost_300Light,
   });
 
   if (!loaded) {

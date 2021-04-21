@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Keyboard, TextInputProps } from "react-native";
 import { ThemeContext } from "styled-components";
 
-import * as S from "./styles.input";
+import * as S from "./styles";
 
 const Input: React.FC<TextInputProps> = ({ children, value, ...props }) => {
   const [isFocus, setIsFocus] = useState(false);
