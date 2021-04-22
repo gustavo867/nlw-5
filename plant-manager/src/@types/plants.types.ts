@@ -14,4 +14,11 @@ export interface Plants {
     times: number;
     repeat_every: string;
   };
+  dateTimeNotification: Date;
+}
+
+export interface StoragePlantProps {
+  [id: string]: {
+    data: Plants;
+  };
 }

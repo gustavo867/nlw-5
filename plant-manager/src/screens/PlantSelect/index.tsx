@@ -37,7 +37,7 @@ function PlantSelect() {
 
   const loadPlants = useCallback(async () => {
     const plants = await api.get(
-      `plants?_sort=name&_order=asc&page=${page}&_limit=8`
+      `plants?_sort=name&_order=asc&_page=${page}&_limit=8`
     );
 
     if (!plants.data) {

@@ -1,18 +1,21 @@
-import { useNavigation } from "@react-navigation/core";
 import React from "react";
+import { useNavigation } from "@react-navigation/core";
 
 import { TouchableOpacityProps } from "react-native";
 import { ms } from "react-native-size-matters";
-import { Plants } from "../../@types/plants.types";
 
 import * as S from "./styles";
 
 interface PlantsProps extends TouchableOpacityProps {
-  item: Plants;
+  item: {
+    name: string;
+    photo: string;
+    hour: string;
+  };
   index: number;
 }
 
-function PlantCardPrimary({ item, index, ...rest }: PlantsProps) {
+function PlantCardSecondary({ item, index, ...rest }: PlantsProps) {
   const { navigate } = useNavigation();
 
   return (
@@ -20,10 +23,14 @@ function PlantCardPrimary({ item, index, ...rest }: PlantsProps) {
       onPress={() => navigate("PlantSave", { item: item })}
       {...(rest as any)}
     >
-      <S.Image uri={item.photo} height={ms(80)} width={ms(80)} />
+      <S.Image uri={item.photo} height={ms(50)} width={ms(50)} />
       <S.Name>{item.name}</S.Name>
+      <S.Details>
+        <S.Label>Regar às</S.Label>
+        <S.Time>{item.hour}</S.Time>
+      </S.Details>
     </S.Container>
   );
 }
 
-export default PlantCardPrimary;
+export default PlantCardSecondary;

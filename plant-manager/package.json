@@ -6,15 +6,19 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "server": "json-server --host 192.168.1.14 --watch server.json --delay 700"
+    "server": "json-server --host 192.168.42.27 --watch server.json --delay 700"
   },
   "dependencies": {
     "@expo-google-fonts/jost": "^0.1.0",
+    "@react-native-async-storage/async-storage": "^1.13.0",
+    "@react-native-community/datetimepicker": "3.2.0",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-navigation/bottom-tabs": "^5.11.10",
     "@react-navigation/core": "^5.15.3",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "axios": "^0.21.1",
+    "date-fns": "^2.21.1",
     "expo": "~41.0.0",
     "expo-font": "~9.1.0",
     "expo-status-bar": "~1.0.4",

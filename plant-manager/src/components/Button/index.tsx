@@ -1,19 +1,35 @@
 import React from "react";
 
-import { TouchableOpacityProps } from "react-native";
-
+import { Dimensions, TouchableOpacityProps } from "react-native";
+import { ms } from "react-native-size-matters";
 import * as S from "./styles";
 
 interface Props extends TouchableOpacityProps {
   text: string;
   disabled?: boolean;
+  buttonWidth?: number;
+  buttonHeight?: number;
 }
 
-function Button({ text, disabled = false, ...rest }: Props) {
+const { width } = Dimensions.get("screen");
+
+function Button({
+  text,
+  disabled = false,
+  buttonHeight = ms(56),
+  buttonWidth = width * 0.6,
+  ...rest
+}: Props) {
   return (
     <S.Container
       activeOpacity={0.7}
-      style={rest.style}
+      style={[
+        rest.style,
+        {
+          height: buttonHeight,
+          width: buttonWidth,
+        },
+      ]}
       disabled={disabled}
       {...(rest as any)}
     >
