@@ -3,6 +3,7 @@ import {
   Dispatch,
   ReactNode,
   SetStateAction,
+  useContext,
   useMemo,
   useState,
 } from "react";
@@ -10,7 +11,7 @@ import {
 type Episode = {
   title: string;
   members: string;
-  thumbail: string;
+  thumbnail: string;
   duration: string;
   url: string;
 };
@@ -20,10 +21,20 @@ type PlayerContextData = {
   setEpisodeList: Dispatch<SetStateAction<Episode[]>>;
   currentEpisodeIndex: number;
   setCurrentEpisodeIndex: Dispatch<SetStateAction<number>>;
-  play(episode: Episode): void;
   isPlaying: boolean;
-  togglePlay(): void;
   setIsPlaying: Dispatch<SetStateAction<boolean>>;
+  hasPrevious: boolean;
+  hasNext: boolean;
+  isLooping: boolean;
+  isShuffling: boolean;
+  play(episode: Episode): void;
+  togglePlay(): void;
+  playList(list: Episode[], index: number): void;
+  playNext(): void;
+  playPrevious(): void;
+  toggleLoop(): void;
+  toggleShuffle: () => void;
+  clearPlayerState(): void;
 };
 
 type Children = {
@@ -38,6 +49,11 @@ export function PlayerProvider({ children }: Children) {
   const [episodeList, setEpisodeList] = useState<Episode[]>([]);
   const [currentEpisodeIndex, setCurrentEpisodeIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isLooping, setIsLooping] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false);
+
+  const hasPrevious = currentEpisodeIndex > 0;
+  const hasNext = isShuffling || currentEpisodeIndex + 1 < episodeList.length;
 
   function play(episode: Episode) {
     setEpisodeList([episode]);
@@ -45,8 +61,45 @@ export function PlayerProvider({ children }: Children) {
     setIsPlaying(true);
   }
 
+  function playList(list: Episode[], index: number) {
+    setCurrentEpisodeIndex(index);
+    setEpisodeList(list);
+    setIsPlaying(true);
+  }
+
+  function clearPlayerState() {
+    setEpisodeList([]);
+    setCurrentEpisodeIndex(0);
+  }
+
   function togglePlay() {
     setIsPlaying((state) => !state);
+  }
+
+  function toggleLoop() {
+    setIsLooping((state) => !state);
+  }
+
+  function toggleShuffle() {
+    setIsShuffling((state) => !state);
+  }
+
+  function playNext() {
+    if (isShuffling) {
+      const nextRandomEpisodeIndex = Math.floor(
+        Math.random() * episodeList.length
+      );
+
+      setCurrentEpisodeIndex(nextRandomEpisodeIndex);
+    } else if (hasNext) {
+      setCurrentEpisodeIndex((state) => state + 1);
+    }
+  }
+
+  function playPrevious() {
+    if (currentEpisodeIndex > 0) {
+      setCurrentEpisodeIndex((state) => state - 1);
+    }
   }
 
   const values = useMemo(
@@ -59,6 +112,16 @@ export function PlayerProvider({ children }: Children) {
       isPlaying,
       togglePlay,
       setIsPlaying,
+      playList,
+      playNext,
+      playPrevious,
+      hasPrevious,
+      hasNext,
+      toggleLoop,
+      isLooping,
+      toggleShuffle,
+      isShuffling,
+      clearPlayerState,
     }),
     [
       episodeList,
@@ -69,6 +132,16 @@ export function PlayerProvider({ children }: Children) {
       isPlaying,
       togglePlay,
       setIsPlaying,
+      playList,
+      playNext,
+      playPrevious,
+      hasPrevious,
+      hasNext,
+      toggleLoop,
+      isLooping,
+      toggleShuffle,
+      isShuffling,
+      clearPlayerState,
     ]
   );
 
@@ -76,3 +149,7 @@ export function PlayerProvider({ children }: Children) {
     <PlayerContext.Provider value={values}>{children}</PlayerContext.Provider>
   );
 }
+
+export const usePlayer = () => {
+  return useContext(PlayerContext);
+};
