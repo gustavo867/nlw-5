@@ -7,6 +7,8 @@ import ptBR from "date-fns/locale/pt-BR";
 import { convertDurationToTimeString } from "../utils/convertDurationToTimeString";
 
 import styles from "./home.module.scss";
+import { useContext } from "react";
+import { PlayerContext } from "../context/PlayerContext";
 
 export type File = {
   url: string;
@@ -31,6 +33,8 @@ type HomeProps = {
 };
 
 export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
+  const { play } = useContext(PlayerContext);
+
   return (
     <div className={styles.homepage}>
       <section className={styles.latestEpisodes}>
@@ -57,7 +61,18 @@ export default function Home({ allEpisodes, latestEpisodes }: HomeProps) {
                   <span>{episode.durationAsString}</span>
                 </div>
 
-                <button type="button">
+                <button
+                  onClick={() =>
+                    play({
+                      duration: String(episode.file.duration),
+                      members: episode.members,
+                      thumbail: episode.thumbnail,
+                      title: episode.title,
+                      url: episode.file.url,
+                    })
+                  }
+                  type="button"
+                >
                   <img src="/play-green.svg" alt="Tocar episodio" />
                 </button>
               </li>
