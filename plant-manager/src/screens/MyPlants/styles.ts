@@ -2,22 +2,8 @@ import { Dimensions, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ms } from "react-native-size-matters";
 import styled from "styled-components/native";
+import { Plants as PlantsType } from "../../@types/plants.types";
 const { width } = Dimensions.get("screen");
-
-type PlantsType = {
-  hour: string;
-  id: number;
-  name: string;
-  about: string;
-  water_tips: string;
-  photo: string;
-  environments: string[];
-  frequency: {
-    times: number;
-    repeat_every: string;
-  };
-  dateTimeNotification: Date;
-};
 
 export const Container = styled(SafeAreaView)`
   flex: 1;

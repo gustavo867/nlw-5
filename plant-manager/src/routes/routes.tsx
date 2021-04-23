@@ -15,7 +15,7 @@ const Stack = createStackNavigator();
 
 function Routes() {
   const { green: themeGreen } = useContext(ThemeContext);
-  const { data, isLoading } = useStorage("@plantmanager:user");
+  const { data, isLoading, hasStorage } = useStorage("@plantmanager:user");
 
   if (isLoading.current === true) {
     return <Loading />;
@@ -23,14 +23,19 @@ function Routes() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator headerMode="none" initialRouteName="PlantSelect">
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen
-          name="UserIdentification"
-          component={UserIdentification}
-        />
-        <Stack.Screen name="Confirmation" component={Confirmation} />
-        <Stack.Screen name="PlantSelect" component={AuthRoutes} />
+      <Stack.Navigator headerMode="none">
+        {hasStorage ? (
+          <Stack.Screen name="PlantSelect" component={AuthRoutes} />
+        ) : (
+          <>
+            <Stack.Screen name="Welcome" component={Welcome} />
+            <Stack.Screen
+              name="UserIdentification"
+              component={UserIdentification}
+            />
+            <Stack.Screen name="Confirmation" component={Confirmation} />
+          </>
+        )}
         <Stack.Screen name="PlantSave" component={PlantSave} />
       </Stack.Navigator>
     </NavigationContainer>

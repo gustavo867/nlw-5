@@ -6,9 +6,15 @@ import React, {
   useState,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StoragePlantProps } from "../@types/plants.types";
+import { Plants, StoragePlantProps } from "../@types/plants.types";
+import { Alert } from "react-native";
 
-export function useStorage<T = string>(key: string) {
+interface UseStorageRemove<T> {
+  key: string;
+  state: T[];
+}
+
+export function useStorage<T = string>(key: string, delay = 2000) {
   const [hasStorage, setHasStorage] = useState(false);
   const [data, setData] = useState<T>();
   const isLoading = useRef(true);
@@ -24,10 +30,21 @@ export function useStorage<T = string>(key: string) {
       isLoading.current = false;
       setHasStorage(false);
     }
+
+    isLoading.current = false;
   }, []);
 
   useEffect(() => {
-    handleStorage();
+    const timeout = setTimeout(() => {
+      if (data) {
+        handleStorage();
+      } else {
+        isLoading.current = true;
+        handleStorage();
+      }
+    }, delay);
+
+    return () => clearTimeout(timeout);
   }, []);
 
   const values = useMemo(
@@ -36,7 +53,7 @@ export function useStorage<T = string>(key: string) {
       data,
       isLoading,
     }),
-    [hasStorage, data, isLoading]
+    [hasStorage, data, isLoading, isLoading.current]
   );
 
   return values;
@@ -51,6 +68,7 @@ export function useSaveStorage<T = StoragePlantProps, R = any>(key: string) {
       const newPlant = {
         [plant.id]: {
           data: plant,
+          notificationId: plant.notificationId,
         },
       };
 
@@ -63,6 +81,38 @@ export function useSaveStorage<T = StoragePlantProps, R = any>(key: string) {
   );
 
   const values = useMemo(() => ({ saveData }), [saveData]);
+
+  return values;
+}
+
+export function useStorageRemove<T = any, S = any>({
+  key,
+  state,
+}: UseStorageRemove<T>) {
+  const handleRemove = useCallback(async (item: any) => {
+    console.log("oi");
+    try {
+      const data = await AsyncStorage.getItem(key);
+      const items: any = data ? (JSON.parse(data) as S) : {};
+
+      delete items[item.id];
+
+      const newState = state.filter((d: any) => d.id === item.id);
+
+      await AsyncStorage.setItem(key, JSON.stringify(items));
+
+      return newState;
+    } catch (e) {
+      Alert.alert("Não foi possível remover! 😥");
+    }
+  }, []);
+
+  const values = useMemo(
+    () => ({
+      handleRemove,
+    }),
+    [handleRemove]
+  );
 
   return values;
 }

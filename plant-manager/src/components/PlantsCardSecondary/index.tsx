@@ -1,10 +1,10 @@
-import React from "react";
-import { useNavigation } from "@react-navigation/core";
-
+import React, { useContext } from "react";
 import { TouchableOpacityProps } from "react-native";
 import { ms } from "react-native-size-matters";
+import { Feather } from "@expo/vector-icons";
 
 import * as S from "./styles";
+import { ThemeContext } from "styled-components";
 
 interface PlantsProps extends TouchableOpacityProps {
   item: {
@@ -13,23 +13,39 @@ interface PlantsProps extends TouchableOpacityProps {
     hour: string;
   };
   index: number;
+  handleRemove?: () => void;
 }
 
-function PlantCardSecondary({ item, index, ...rest }: PlantsProps) {
-  const { navigate } = useNavigation();
+function PlantCardSecondary({
+  item,
+  index,
+  handleRemove,
+  ...rest
+}: PlantsProps) {
+  const colors = useContext(ThemeContext);
 
   return (
-    <S.Container
-      onPress={() => navigate("PlantSave", { item: item })}
-      {...(rest as any)}
+    <S.SwipeableContainer
+      overshootRight={false}
+      renderRightActions={() => (
+        <S.AnimatedContainer>
+          <S.ContentRightAction>
+            <S.ActionBtnRight onPress={handleRemove}>
+              <Feather name="trash" size={ms(32)} color={colors.white} />
+            </S.ActionBtnRight>
+          </S.ContentRightAction>
+        </S.AnimatedContainer>
+      )}
     >
-      <S.Image uri={item.photo} height={ms(50)} width={ms(50)} />
-      <S.Name>{item.name}</S.Name>
-      <S.Details>
-        <S.Label>Regar às</S.Label>
-        <S.Time>{item.hour}</S.Time>
-      </S.Details>
-    </S.Container>
+      <S.Container {...(rest as any)}>
+        <S.Image uri={item.photo} height={ms(50)} width={ms(50)} />
+        <S.Name>{item.name}</S.Name>
+        <S.Details>
+          <S.Label>Regar às</S.Label>
+          <S.Time>{item.hour}</S.Time>
+        </S.Details>
+      </S.Container>
+    </S.SwipeableContainer>
   );
 }
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Entypo } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/core";
 import { moderateScale } from "react-native-size-matters";
@@ -9,9 +9,9 @@ import Button from "../../components/Button";
 import ScrollComponent from "../../modules/components/ScrollComponent";
 import waterdrop from "../../assets/waterdrop.png";
 import { Plants, StoragePlantProps } from "../../@types/plants.types";
-
+import * as Notifications from "expo-notifications";
 import * as S from "./styles";
-import { useSaveStorage, useStorage } from "../../hooks/useStorage";
+import { useSaveStorage } from "../../hooks/useStorage";
 
 const { width } = Dimensions.get("screen");
 
@@ -49,10 +49,49 @@ export default function PlantSave() {
   );
 
   const handleSave = useCallback(async () => {
+    const nextTime = new Date(item.dateTimeNotification);
+    const now = new Date();
+
+    const { times, repeat_every } = item.frequency;
+
+    if (repeat_every === "week") {
+      const interval = Math.trunc(7 / times);
+      nextTime.setDate(now.getDate() + interval);
+    }
+
+    // else {
+    //   nextTime.setDate(now.getDate() + 1);
+    // }
+
+    const seconds = Math.abs(
+      Math.ceil((now.getTime() - nextTime.getTime()) / 1000)
+    );
+
+    console.log("Seconds", seconds);
+
+    const notificationId = await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Heeey, 🌱",
+        body: `Está na hora de cuidar da sua ${item.name}`,
+        sound: true,
+        priority: Notifications.AndroidNotificationPriority.HIGH,
+        data: {
+          item,
+        },
+      },
+      trigger: {
+        seconds: seconds < 60 ? 60 : seconds,
+        repeats: true,
+      },
+    });
+
+    console.log(notificationId);
+
     await saveData({
       ...item,
       id: String(item.id),
       dateTimeNotification: selectedDateTime,
+      notificationId,
     });
 
     navigate("Confirmation", {
@@ -67,6 +106,7 @@ export default function PlantSave() {
 
   return (
     <ScrollComponent
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={{
         flex: 1,
       }}

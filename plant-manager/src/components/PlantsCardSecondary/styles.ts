@@ -1,8 +1,28 @@
-import { Dimensions } from "react-native";
+import { Animated, Dimensions } from "react-native";
 import { moderateScale, ms } from "react-native-size-matters";
 import styled from "styled-components/native";
 import { SvgFromUri } from "react-native-svg";
+import { Swipeable } from "react-native-gesture-handler";
 const { width } = Dimensions.get("screen");
+
+export const SwipeableContainer = styled(Swipeable)``;
+
+export const AnimatedContainer = styled(Animated.View)``;
+
+export const ContentRightAction = styled.View``;
+
+export const ActionBtnRight = styled.TouchableOpacity`
+  width: ${ms(100)}px;
+  height: ${ms(85)}px;
+  background-color: ${(props) => props.theme.red};
+  margin-top: ${ms(15)}px;
+  border-radius: ${ms(20)}px;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  right: ${ms(20)}px;
+  padding-left: ${ms(15)}px;
+`;
 
 export const Container = styled.TouchableOpacity`
   width: 98%;
