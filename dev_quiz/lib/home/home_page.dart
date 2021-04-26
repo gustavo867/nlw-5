@@ -1,3 +1,4 @@
+import 'package:DevQuiz/challenge/challenge_page.dart';
 import 'package:DevQuiz/challenge/widgets/quiz_widget.dart';
 import 'package:DevQuiz/core/app_colors.dart';
 import 'package:DevQuiz/shared/models/user_model.dart';
@@ -22,7 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller.getUser();
     controller.getQuizzes();
@@ -62,6 +62,17 @@ class _HomePageState extends State<HomePage> {
                                 title: item.title,
                                 percent: item.questionAnswered /
                                     item.questions.length,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ChallengePage(
+                                                questions: item.questions,
+                                              )
+                                      )
+                                  );
+                                },
                                 completed:
                                     "${item.questionAnswered}/${item.questions.length}",
                               ))
