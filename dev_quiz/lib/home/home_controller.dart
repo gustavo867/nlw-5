@@ -20,6 +20,7 @@ class HomeController {
 
     user = UserModel(
       name: "Gustavo",
+      score: 100,
       photoUrl: "https://avatars.githubusercontent.com/u/63013756?v=4",
     );
 
