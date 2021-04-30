@@ -3,7 +3,7 @@ import { useStorage } from "../../hooks/useStorage";
 import * as S from "./styles";
 
 function AvatarHeader() {
-  const { data } = useStorage<string>("@plantmanager:user");
+  const { data } = useStorage<string>("@plantmanager:user", 0, false);
 
   return (
     <S.Container>
