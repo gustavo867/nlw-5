@@ -6,19 +6,19 @@ import React, {
   useState,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Plants, StoragePlantProps } from "../@types/plants.types";
+import { StoragePlantProps } from "../@types/plants.types";
 import { Alert } from "react-native";
-
-// TODO Later
 
 interface UseStorageRemove<T> {
   key: string;
   state: T[];
 }
 
-// Learning more T types
-
-export function useStorage<T = string>(key: string, delay = 2000) {
+export function useStorage<T = string>(
+  key: string,
+  delay = 2000,
+  hasDelay = true
+) {
   const [hasStorage, setHasStorage] = useState(false);
   const [data, setData] = useState<T>();
   const isLoading = useRef(true);
@@ -39,16 +39,18 @@ export function useStorage<T = string>(key: string, delay = 2000) {
   }, []);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
-      if (data) {
-        handleStorage();
-      } else {
-        isLoading.current = true;
-        handleStorage();
-      }
-    }, delay);
-
-    return () => clearTimeout(timeout);
+    if (hasDelay) {
+      const timeout = setInterval(() => {
+        if (data) {
+          handleStorage();
+        } else {
+          isLoading.current = true;
+          handleStorage();
+        }
+      }, delay);
+    } else {
+      handleStorage();
+    }
   }, []);
 
   const values = useMemo(
