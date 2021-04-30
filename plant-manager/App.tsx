@@ -10,8 +10,8 @@ import {
   Jost_300Light,
 } from "@expo-google-fonts/jost";
 import colors from "./src/styles/colors";
-import { ActivityIndicator, View } from "react-native";
 import { Routes } from "./src/routes/routes";
+import Loading from "./src/components/Loading";
 
 export default function App() {
   const [loaded] = useFonts({
@@ -23,11 +23,7 @@ export default function App() {
   });
 
   if (!loaded) {
-    return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <ActivityIndicator color="#000" size="large" />
-      </View>
-    );
+    return <Loading />;
   }
 
   return (

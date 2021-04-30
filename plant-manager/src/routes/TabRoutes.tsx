@@ -41,22 +41,20 @@ const AuthRoutes = () => {
             ),
           }}
         />
-        {hasStorage && data && (
-          <AppTab.Screen
-            name="MyPlants"
-            component={MyPlants}
-            options={{
-              tabBarLabel: "Minhas Plantas",
-              tabBarIcon: ({ size, color }) => (
-                <MaterialIcons
-                  name="format-list-bulleted"
-                  size={size}
-                  color={color}
-                />
-              ),
-            }}
-          />
-        )}
+        <AppTab.Screen
+          name="MyPlants"
+          component={MyPlants}
+          options={{
+            tabBarLabel: "Minhas Plantas",
+            tabBarIcon: ({ size, color }) => (
+              <MaterialIcons
+                name="format-list-bulleted"
+                size={size}
+                color={color}
+              />
+            ),
+          }}
+        />
       </AppTab.Navigator>
     </PlantsProvider>
   );
