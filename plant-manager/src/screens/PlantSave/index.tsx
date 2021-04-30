@@ -57,17 +57,13 @@ export default function PlantSave() {
     if (repeat_every === "week") {
       const interval = Math.trunc(7 / times);
       nextTime.setDate(now.getDate() + interval);
+    } else {
+      nextTime.setDate(now.getDate() + 1);
     }
-
-    // else {
-    //   nextTime.setDate(now.getDate() + 1);
-    // }
 
     const seconds = Math.abs(
       Math.ceil((now.getTime() - nextTime.getTime()) / 1000)
     );
-
-    console.log("Seconds", seconds);
 
     const notificationId = await Notifications.scheduleNotificationAsync({
       content: {
@@ -84,8 +80,6 @@ export default function PlantSave() {
         repeats: true,
       },
     });
-
-    console.log(notificationId);
 
     await saveData({
       ...item,
@@ -105,25 +99,22 @@ export default function PlantSave() {
   }, [item]);
 
   return (
-    <ScrollComponent
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        flex: 1,
-      }}
-    >
+    <>
       <S.ArrowAbsolute onPress={() => goBack()}>
         <Entypo name="chevron-left" size={moderateScale(30)} color="#52665A" />
       </S.ArrowAbsolute>
       <S.Container>
-        <S.PlantInfo>
-          <S.Image
-            uri={item.photo}
-            width={moderateScale(200)}
-            height={moderateScale(200)}
-          />
-          <S.Title>{item.name}</S.Title>
-          <S.Desc>{item.about}</S.Desc>
-        </S.PlantInfo>
+        <ScrollComponent showsVerticalScrollIndicator>
+          <S.PlantInfo>
+            <S.Image
+              uri={item.photo}
+              width={moderateScale(200)}
+              height={moderateScale(200)}
+            />
+            <S.Title>{item.name}</S.Title>
+            <S.Desc>{item.about}</S.Desc>
+          </S.PlantInfo>
+        </ScrollComponent>
         <S.Controllers>
           <S.TipContainer>
             <S.Icon source={waterdrop} />
@@ -162,6 +153,6 @@ export default function PlantSave() {
           />
         </S.Controllers>
       </S.Container>
-    </ScrollComponent>
+    </>
   );
 }

@@ -4,7 +4,7 @@ import { ms } from "react-native-size-matters";
 import { SvgFromUri } from "react-native-svg";
 import styled from "styled-components/native";
 
-const { width } = Dimensions.get("screen");
+const { width, height } = Dimensions.get("screen");
 
 export const Container = styled(SafeAreaView)`
   flex: 1;
@@ -63,7 +63,7 @@ export const Desc = styled.Text`
 export const Controllers = styled.View`
   background-color: ${(props) => props.theme.white};
   padding-horizontal: ${ms(20)}px;
-  padding-top: ${ms(20)}px;
+  padding-bottom: ${ms(10)}px;
 `;
 
 export const TipContainer = styled.View`
@@ -73,8 +73,7 @@ export const TipContainer = styled.View`
   background-color: ${(props) => props.theme.blue_light};
   padding: ${ms(20)}px;
   border-radius: ${ms(20)}px;
-  position: relative;
-  bottom: ${ms(60)}px;
+  bottom: ${ms(20)}px;
 `;
 
 export const Icon = styled.Image`

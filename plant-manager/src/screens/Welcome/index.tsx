@@ -19,7 +19,7 @@ function Welcome() {
         sempre que precisar.
       </S.Desc>
       <S.LargeMargin />
-      <Button text=">" onPress={() => navigate("UserIdentification")} />
+      <Button onPress={() => navigate("UserIdentification")} />
     </S.Container>
   );
 }

@@ -25,8 +25,6 @@ export const LargeMargin = styled.View`
 `;
 
 export const HeroImg = styled.Image`
-  width: ${ms(300)}px;
-  height: ${ms(300)}px;
   margin-top: ${ms(40)}px;
   align-self: center;
 `;
