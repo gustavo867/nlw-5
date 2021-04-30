@@ -9,10 +9,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Plants, StoragePlantProps } from "../@types/plants.types";
 import { Alert } from "react-native";
 
+// TODO Later
+
 interface UseStorageRemove<T> {
   key: string;
   state: T[];
 }
+
+// Learning more T types
 
 export function useStorage<T = string>(key: string, delay = 2000) {
   const [hasStorage, setHasStorage] = useState(false);
